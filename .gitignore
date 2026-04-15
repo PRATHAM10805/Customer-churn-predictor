@@ -1,0 +1,68 @@
+# Python cache files
+
+**pycache**/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+
+venv/
+.env/
+.venv/
+
+# Jupyter Notebook checkpoints
+
+.ipynb_checkpoints/
+
+# Data files (optional - keep if large/private)
+
+data/*.csv
+data/*.xlsx
+
+# Model files (important - usually NOT pushed)
+
+models/*.pkl
+
+# OS files
+
+.DS_Store
+Thumbs.db
+
+# Environment variables
+
+.env
+
+# Logs
+
+*.log
+
+#Testing / coverage
+
+.coverage
+htmlcov/
+.pytest_cache/
+
+# IDE files
+
+.vscode/
+.idea/
+
+# Build files
+
+dist/
+build/
+*.egg-info/
+
+# ⚡ Streamlit cache
+
+.streamlit/
+
+# Temporary files
+
+*.tmp
+*.swp
+
+# Docker (if added later)
+
+*.dockerignore
+Dockerfile

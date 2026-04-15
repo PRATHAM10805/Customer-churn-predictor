@@ -150,24 +150,4 @@ streamlit run app/app.py
 
 ---
 
-## 🚀 Future Improvements
 
-* Add real customer feedback dataset
-* Integrate sentiment analysis (VADER/TextBlob)
-* Deploy REST API using FastAPI + Uvicorn
-* Dockerize the application
-* Add monitoring and logging
-
----
-
-## 🧾 Resume Description
-
-Built an end-to-end customer churn prediction system using Scikit-learn pipelines and NLP techniques. Developed a modular and scalable architecture with real-time predictions via Streamlit, and designed the system for production deployment using FastAPI.
-
----
-
-## ⭐ If you like this project
-
-Give it a star ⭐ and feel free to fork!
-
----

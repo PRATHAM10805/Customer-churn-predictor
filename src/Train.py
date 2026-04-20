@@ -8,25 +8,31 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 
-from Data_preprocessing import load_data, add_nlp_feature
+from src.Data_preprocessing import load_data, add_nlp_feature
+from src.utils.logger import get_logger
+from src.utils.config_loader import load_config
 
+logger = get_logger(__name__)
+config = load_config()
 
-def save_model(model, path="models/model.pkl"):
-    # Create folder automatically
+def save_model(model, path=config['model']['path']):
     os.makedirs(os.path.dirname(path), exist_ok=True)
-
     with open(path, "wb") as f:
         pickle.dump(model, f)
-
-    print(f"✅ Model saved at {path}")
-
+    logger.info(f"Model saved successfully at {path}")
 
 def train():
+    logger.info("Starting model training pipeline...")
+    
+    data_path = config['data']['raw_path']
+    if not os.path.exists(data_path):
+        logger.error(f"Dataset not found at {data_path}")
+        raise FileNotFoundError(f"Dataset not found at {data_path}")
 
-    print("🔹 Loading data...")
-    df = load_data("C:/Users/mehta/OneDrive/Desktop/Customer-churn-prediction/data/Telco.csv")   # ✅ relative path (better)
+    logger.info(f"Loading data from {data_path}...")
+    df = load_data(data_path)
 
-    print("🔹 Adding NLP feature...")
+    logger.info("Adding NLP features...")
     df = add_nlp_feature(df)
 
     numeric_features = ['tenure', 'MonthlyCharges']
@@ -36,8 +42,7 @@ def train():
     X = df[numeric_features + categorical_features + [text_feature]]
     y = df['Churn']
 
-    print("🔹 Building pipeline...")
-
+    logger.info("Building preprocessor and pipeline...")
     preprocessor = ColumnTransformer(
         transformers=[
             ('num', StandardScaler(), numeric_features),
@@ -48,33 +53,31 @@ def train():
 
     pipeline = Pipeline([
         ('preprocessor', preprocessor),
-        ('model', RandomForestClassifier(random_state=42))
+        ('model', RandomForestClassifier(random_state=config['data']['random_state']))
     ])
 
     param_grid = {
-        'model__n_estimators': [100, 200],
-        'model__max_depth': [5, 10]
+        'model__n_estimators': config['training']['n_estimators'],
+        'model__max_depth': config['training']['max_depth']
     }
 
-    print("🔹 Splitting data...")
+    logger.info("Splitting data into train/test sets...")
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42
+        X, y, test_size=config['data']['test_size'], random_state=config['data']['random_state']
     )
 
-    print("🔹 Training model (this may take time)...")
-    grid = GridSearchCV(pipeline, param_grid, cv=3, scoring='f1', n_jobs=-1)
-
+    logger.info(f"Commencing GridSearchCV with param_grid: {param_grid}")
+    grid = GridSearchCV(pipeline, param_grid, cv=config['training']['cv'], scoring='f1', n_jobs=-1)
     grid.fit(X_train, y_train)
 
-    print("🔹 Evaluating model...")
+    logger.info("Evaluating model performance...")
     y_pred = grid.predict(X_test)
+    report = classification_report(y_test, y_pred)
+    logger.info(f"Best Params: {grid.best_params_}")
+    logger.info(f"\n{report}")
 
-    print("Best Params:", grid.best_params_)
-    print(classification_report(y_test, y_pred))
-
-    print("🔹 Saving model...")
+    logger.info("Saving best estimator...")
     save_model(grid.best_estimator_)
-
 
 if __name__ == "__main__":
     train()

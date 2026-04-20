@@ -1,0 +1,16 @@
+model:
+  path: "src/models/model.pkl"
+  name: "RandomForest_Churn_V1"
+
+data:
+  raw_path: "Telco.csv"
+  test_size: 0.2
+  random_state: 42
+
+training:
+  n_estimators: [100, 200]
+  max_depth: [5, 10]
+  cv: 3
+
+logging:
+  level: "INFO"

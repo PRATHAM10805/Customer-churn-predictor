@@ -1,153 +1,127 @@
 # 📊 Customer Churn Prediction System
 
-🚀 An end-to-end Machine Learning project to predict customer churn using **structured data + NLP-based customer feedback**, deployed with an interactive web interface.
+🚀 An industry-ready Machine Learning system to predict customer churn using **Structured Data + NLP-based Customer Feedback**, featuring high-performance models and a production-style deployment architecture.
 
 ---
 
 ## 🔗 Project Overview
 
-Customer churn prediction helps businesses identify customers who are likely to leave.
-This project builds a scalable ML pipeline that combines:
-
-* 📈 Customer behavior data (tenure, charges)
-* 🧾 Service-related data (contract, internet service)
-* 💬 Customer feedback (NLP using TF-IDF)
+This system identifies customers at risk of leaving by analyzing a comprehensive set of features:
+*   **Demographics**: Gender, Seniority, Partners, Dependents.
+*   **Service Details**: Internet type, Online Security, Tech Support, Streaming services.
+*   **Billing Information**: Tenure, Contract type, Monthly and Total charges.
+*   **Customer Sentiment**: Synthetic feedback processed using **NLP (TF-IDF Vectorization)**.
 
 ---
 
 ## 🧠 Key Features
 
-* ✅ End-to-end ML pipeline using Scikit-learn
-* ✅ NLP integration for customer sentiment signals
-* ✅ Hyperparameter tuning with GridSearchCV
-* ✅ Modular and production-style code structure
-* ✅ Real-time predictions via Streamlit UI
-* ✅ Ready for API deployment (FastAPI + Uvicorn)
+*   ✅ **Multi-Model Pipeline**: Automated comparison between **Random Forest** and **Logistic Regression**.
+*   ✅ **Advanced Feature Engineering**: Combines categorical, numerical, and text-based signals.
+*   ✅ **Imbalance Mitigation**: Uses class-weighting to accurately detect churners in imbalanced datasets.
+*   ✅ **Production-Grade API**: Built with **FastAPI** for low-latency, high-throughput predictions.
+*   ✅ **Interactive Dashboard**: **Streamlit** interface for manual testing and visualization.
+*   ✅ **Config-Driven Architecture**: Easily tune hyperparameters via `config.yaml`.
 
 ---
 
 ## 🏗️ Project Structure
 
 ```bash
-customer-churn-prediction/
-│
-├── data/
-│   └── telco.csv
-│
-├── models/
-│   └── model.pkl
-│
-├── src/
-│   ├── preprocess.py
-│   ├── train.py
-│   ├── predict.py
-│
+Customer-churn-predictor/
 ├── app/
-│   └── app.py
-│
-├── requirements.txt
-└── README.md
+│   ├── api.py           # FastAPI REST Backend
+│   └── app.py           # Streamlit Web UI
+├── src/
+│   ├── Train.py         # Multi-model training pipeline
+│   ├── Predict.py       # Centralized prediction logic
+│   ├── Data_preprocessing.py # Data cleaning & NLP generation
+│   └── utils/           # Logging & Config loaders
+├── config.yaml          # Central configuration file
+├── Telco.csv            # Raw dataset
+├── requirements.txt     # Dependency list
+└── Main.py              # Command Center (CLI)
 ```
 
 ---
 
 ## ⚙️ Tech Stack
 
-* **Python**
-* **Scikit-learn**
-* **NLP (TF-IDF Vectorization)**
-* **Streamlit**
-* *(Optional)* FastAPI & Uvicorn for backend deployment
+*   **Logic**: Python 3.10+
+*   **ML Framework**: Scikit-learn
+*   **API**: FastAPI + Uvicorn
+*   **UI**: Streamlit
+*   **Data**: Pandas, NumPy
+*   **Serialization**: Pickle
 
 ---
 
-## 🔄 Workflow
+## 🔄 Model Comparison (Latest Results)
 
-### 1. Data Preprocessing
+| Algorithm | F1-Score | ROC-AUC |
+| :--- | :--- | :--- |
+| **Logistic Regression** | 0.6073 | **0.8293** |
+| **Random Forest** | **0.6109** | 0.8283 |
 
-* Cleaned missing values
-* Encoded categorical variables using OneHotEncoder
-* Generated NLP feature from customer feedback
-
-### 2. Feature Engineering
-
-* Numerical features → scaling
-* Categorical features → one-hot encoding
-* Text features → TF-IDF vectorization
-
-### 3. Model Training
-
-* Random Forest Classifier
-* Hyperparameter tuning using GridSearchCV
-* Evaluated using F1-score, precision, recall
-
-### 4. Deployment
-
-* Streamlit app for real-time prediction
+*The system currently saves the **Logistic Regression** model by default as it provides the best ROC-AUC (ranking ability).*
 
 ---
 
-## ▶️ How to Run
+## ▶️ Getting Started
 
-### 1. Clone repository
-
-```bash
-git clone <your-repo-link>
-cd customer-churn-prediction
-```
-
----
-
-### 2. Install dependencies
-
+### 1. Installation
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-### 3. Train the model
-
+### 2. Training & Evaluation
+Train both models and save the best one:
 ```bash
-python -m src.train
+python Main.py train
+```
+
+### 3. Launch the API
+```bash
+python Main.py api
+```
+
+### 4. Launch the UI Dashboard
+```bash
+python Main.py ui
 ```
 
 ---
 
-### 4. Run the app
+## 🔍 API Usage
 
-```bash
-streamlit run app/app.py
+**POST** `/predict`
+```json
+{
+  "gender": "Female",
+  "SeniorCitizen": 0,
+  "Partner": "Yes",
+  "Dependents": "No",
+  "tenure": 1,
+  "PhoneService": "No",
+  "MultipleLines": "No phone service",
+  "InternetService": "DSL",
+  "OnlineSecurity": "No",
+  "OnlineBackup": "Yes",
+  "DeviceProtection": "No",
+  "TechSupport": "No",
+  "StreamingTV": "No",
+  "StreamingMovies": "No",
+  "Contract": "Month-to-month",
+  "PaperlessBilling": "Yes",
+  "PaymentMethod": "Electronic check",
+  "MonthlyCharges": 29.85,
+  "TotalCharges": 29.85,
+  "Customer_Feedback": "Average service, nothing special"
+}
 ```
 
 ---
 
-## 🧪 Example Input
-
-| Feature          | Value               |
-| ---------------- | ------------------- |
-| Tenure           | 5                   |
-| Monthly Charges  | 95                  |
-| Contract         | Month-to-month      |
-| Internet Service | Fiber optic         |
-| Feedback         | Very bad experience |
-
----
-
-## 📊 Output
-
-* ⚠️ High chance of churn
-* ✅ Customer likely to stay
-
----
-
-## 🔍 Highlights
-
-* Combines **structured + unstructured (text) data**
-* Uses **Pipeline + ColumnTransformer** (industry standard)
-* Avoids data leakage
-* Scalable and reusable design
-
----
-
-
+## 📊 Performance Highlights
+*   **ROC-AUC**: ~0.83 (Excellent ranking ability)
+*   **Recall (Churn)**: ~73% (Identifies the majority of at-risk customers)

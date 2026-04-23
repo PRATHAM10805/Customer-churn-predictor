@@ -1,4 +1,4 @@
-# 📊 Customer Churn Prediction System
+ # 📊 Customer Churn Prediction System
 
 🚀 An industry-ready Machine Learning system to predict customer churn using **Structured Data + NLP-based Customer Feedback**, featuring high-performance models and a production-style deployment architecture.
 
@@ -90,35 +90,6 @@ python Main.py api
 python Main.py ui
 ```
 
----
-
-## 🔍 API Usage
-
-**POST** `/predict`
-```json
-{
-  "gender": "Female",
-  "SeniorCitizen": 0,
-  "Partner": "Yes",
-  "Dependents": "No",
-  "tenure": 1,
-  "PhoneService": "No",
-  "MultipleLines": "No phone service",
-  "InternetService": "DSL",
-  "OnlineSecurity": "No",
-  "OnlineBackup": "Yes",
-  "DeviceProtection": "No",
-  "TechSupport": "No",
-  "StreamingTV": "No",
-  "StreamingMovies": "No",
-  "Contract": "Month-to-month",
-  "PaperlessBilling": "Yes",
-  "PaymentMethod": "Electronic check",
-  "MonthlyCharges": 29.85,
-  "TotalCharges": 29.85,
-  "Customer_Feedback": "Average service, nothing special"
-}
-```
 
 ---
 

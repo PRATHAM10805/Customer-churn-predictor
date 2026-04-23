@@ -58,7 +58,9 @@ def train():
 
     param_grid = {
         'model__n_estimators': config['training']['n_estimators'],
-        'model__max_depth': config['training']['max_depth']
+        'model__max_depth': config['training']['max_depth'],
+        'model__min_samples_split': config['training']['min_samples_split'],
+        'model__min_samples_leaf': config['training']['min_samples_leaf'],
     }
 
     logger.info("Splitting data into train/test sets...")

@@ -9,8 +9,10 @@ data:
 
 training:
   n_estimators: [100, 200]
-  max_depth: [5, 10]
-  cv: 3
+  max_depth: [3, 5, 7]
+  min_samples_split: [10, 20]
+  min_samples_leaf: [5, 10]
+  cv: 5
 
 logging:
   level: "INFO"
